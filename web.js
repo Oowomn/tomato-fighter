@@ -49,13 +49,13 @@ app.post('/', function (req, res) {
     var closestOne = findClosest(state, mySelf);
 
     if (mySelf.x != (dims[0] - 1)) {
-        if (mySelf.direction != 'S') {
+        if (mySelf.direction != 'E') {
             res.send('L');
         } else {
             res.send('F');
         }
     } else if (mySelf.y != (dims[1] - 1)) {
-        if (mySelf.direction != 'E') {
+        if (mySelf.direction != 'S') {
             res.send('L');
         } else {
             res.send('F');
