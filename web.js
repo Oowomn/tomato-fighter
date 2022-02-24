@@ -20,13 +20,13 @@ app.post('/', function (req, res) {
     var myLink = _links.self.href;
     var mySelf = findPeople(state, myLink);
 
-    var findClosest = (game, myState) => {
-        var names = Object.keys(game);
-        var index = names.indexOf(myLink);
-        names.splice(index, 1);
+    var names = Object.keys(state);
+    var index = names.indexOf(myLink);
+    names.splice(index, 1);
 
-        var players = names.map( n => game[n]);
+    var players = names.map( n => game[n]);
 
+    var findClosest = (players, myState) => {
         var closePlayers = players.filter((p1) => {
             return ((myState.y - p1.y) <= 2) && ((myState.x - p1.x) <= 2) 
         });
@@ -46,9 +46,37 @@ app.post('/', function (req, res) {
         }
     }
 
-    var closestOne = findClosest(state, mySelf);
+    var closestOne = findClosest(players, mySelf);
 
-    if (closestOne != null) {
+    var isInfrontOfMe = (ps) => {
+        var result = []
+        if (mySelf.direction == 'N') {
+            result = ps.filter( (p) => {
+                p.y == (mySelf.y - 1)
+            })
+        } else if (mySelf.direction == 'E') {
+            result = ps.filter( (p) => {
+                p.x == (mySelf.x + 1)
+            })
+        } else if (mySelf.direction == 'S') {
+            result = ps.filter( (p) => {
+                p.y == (mySelf.y + 1)
+            })
+        } else {
+            result = ps.filter( (p) => {
+                p.x == (mySelf.x - 1)
+            })
+        } 
+        return result.count > 0
+    }
+
+    if(mySelf.wasHit) {
+        if (isInfrontOfMe(players)) {
+            res.send('L');   
+        } else {
+            res.send('F');
+        }
+    } else if (closestOne != null) {
         if (closestOne.x == mySelf.x) {
             if (mySelf.direction != 'N') {
                 res.send('L');
