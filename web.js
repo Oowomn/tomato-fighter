@@ -17,20 +17,60 @@ app.post('/', function (req, res) {
 
     var mySelf = findPeople(state, "https://tomato-fighter-aikn37gbia-uc.a.run.app");
 
-    if (mySelf.x != dims[0]) {
+    var closestOne = (game, myState) => {
+        var players = Object.keys(game);
+
+        var closePlayers = players.filter((p1) => {
+            return ((myState.y - p1.y) <= 2) && ((myState.x - p1.x) <= 2) 
+        });
+        
+        if (closePlayers.length != 0) {
+            closePlayers = closePlayers.sort((p1, p2)=> {
+                if (p1.y == p2.y) {
+                    return p1.x >= p2.x;
+                } else {
+                    return true;
+                }
+            })
+
+            return closePlayers[0];
+        } else {
+            return null;
+        }
+    }
+
+    if (mySelf.x != (dims[0] - 1)) {
         if (mySelf.direction != 'S') {
             res.send('L');
         } else {
             res.send('F');
         }
-    } else if (mySelf.y != dims[1]) {
+    } else if (mySelf.y != (dims[1] - 1)) {
         if (mySelf.direction != 'E') {
             res.send('L');
         } else {
             res.send('F');
         }
     } else {
-        res.send('T');
+        if (closestOne != null) {
+            if (closestOne.x == mySelf.x) {
+                if (mySelf.direction != 'W') {
+                    res.send('L');
+                } else {
+                    res.send('T');
+                }
+            } else if (closestOne.y == mySelf.y) {
+                if (mySelf.direction != 'N') {
+                    res.send('L');
+                } else {
+                    res.send('T');
+                }
+            } else {
+                res.send('T');
+            }
+        } else {
+            res.send('T');
+        }
     }
 });
 
