@@ -25,7 +25,7 @@ app.post('/', function (req, res) {
         var index = names.indexOf(myLink);
         names.splice(index, 1);
 
-        var players = names.map( n => game[x]);
+        var players = names.map( n => game[n]);
 
         var closePlayers = players.filter((p1) => {
             return ((myState.y - p1.y) <= 2) && ((myState.x - p1.x) <= 2) 
