@@ -48,31 +48,21 @@ app.post('/', function (req, res) {
 
     var closestOne = findClosest(players, mySelf);
 
+    var onLeft = (p) => { return (p.y == mySelf.y) && (p.x == (mySelf.x - 1)); };
+    var onRight = (p) => { return (p.y == mySelf.y) && (p.x == (mySelf.x + 1)); };
+    var onTop = (p) => { return (p.y == (mySelf.y - 1)) && (p.x == mySelf.x); };
+    var onBottom = (p) => { return (p.y == (mySelf.y + 1)) && (p.x == mySelf.x); };
+
     var isInfrontOfMe = (ps) => {
-        var result = []
-        if (mySelf.direction == 'N') {
-            result = ps.filter( (p) => {
-                p.y == (mySelf.y - 1)
-            })
-        } else if (mySelf.direction == 'E') {
-            result = ps.filter( (p) => {
-                p.x == (mySelf.x + 1)
-            })
-        } else if (mySelf.direction == 'S') {
-            result = ps.filter( (p) => {
-                p.y == (mySelf.y + 1)
-            })
-        } else {
-            result = ps.filter( (p) => {
-                p.x == (mySelf.x - 1)
-            })
-        } 
+        var result = ps.filter( (p) => {
+            return onLeft(p) || onRight(p) || onTop(p) || onBottom(p)
+        })
         return result.count > 0
     }
 
     if(mySelf.wasHit) {
         if (isInfrontOfMe(players)) {
-            res.send('L');   
+            res.send('L');
         } else {
             res.send('F');
         }
