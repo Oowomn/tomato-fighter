@@ -32,11 +32,11 @@ app.post('/', function (req, res) {
         });
         
         if (closePlayers.length != 0) {
-            closePlayers = closePlayers.sort((p1, p2)=> {
+            closePlayers.sort((p1, p2)=> {
                 if (p1.y == p2.y) {
                     return p1.x >= p2.x;
                 } else {
-                    return true;
+                    return p1.y >= p2.y;
                 }
             })
 
