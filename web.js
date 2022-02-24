@@ -11,14 +11,20 @@ app.get('/', function (req, res) {
 app.post('/', function (req, res) {
   console.log(req.body);
     const { dims, state } = req.body.arena;
+    const { _links } = req.body;
+
     var findPeople = (state, pURL) => {
         return state[pURL];
     };
 
-    var mySelf = findPeople(state, "https://tomato-fighter-aikn37gbia-uc.a.run.app");
+    var myLink = _links.self.href;
+    var mySelf = findPeople(state, myLink);
 
-    var closestOne = (game, myState) => {
-        var players = Object.keys(game);
+    var findClosest = (game, myState) => {
+        var names = Object.keys(game);
+        names.remove(myLink);
+
+        var players = names.map( n => game[x]);
 
         var closePlayers = players.filter((p1) => {
             return ((myState.y - p1.y) <= 2) && ((myState.x - p1.x) <= 2) 
@@ -38,6 +44,8 @@ app.post('/', function (req, res) {
             return null;
         }
     }
+
+    var closestOne = findClosest(state, mySelf);
 
     if (mySelf.x != (dims[0] - 1)) {
         if (mySelf.direction != 'S') {
