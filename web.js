@@ -78,7 +78,7 @@ app.post('/', function (req, res) {
                 res.send('T');
             }
         } else {
-            res.send('F');
+            res.send('T');
         }
     }
 });
