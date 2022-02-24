@@ -22,7 +22,8 @@ app.post('/', function (req, res) {
 
     var findClosest = (game, myState) => {
         var names = Object.keys(game);
-        names.remove(myLink);
+        var index = names.indexOf(myLink);
+        names.splice(index, 1);
 
         var players = names.map( n => game[x]);
 
