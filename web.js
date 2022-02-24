@@ -40,10 +40,10 @@ app.post('/', function (req, res) {
 
     var closestOne = findClosest(players, mySelf);
 
-    var onLeft = (p) => { return (p.y == mySelf.y) && (p.x == (mySelf.x - 1)); };
-    var onRight = (p) => { return (p.y == mySelf.y) && (p.x == (mySelf.x + 1)); };
-    var onTop = (p) => { return (p.y == (mySelf.y - 1)) && (p.x == mySelf.x); };
-    var onBottom = (p) => { return (p.y == (mySelf.y + 1)) && (p.x == mySelf.x); };
+    var onLeft = (p, distance = 1) => { return (p.y == mySelf.y) && (p.x == (mySelf.x - 1)); };
+    var onRight = (p, distance = 1) => { return (p.y == mySelf.y) && (p.x == (mySelf.x + 1)); };
+    var onTop = (p, distance = 1) => { return (p.y == (mySelf.y - 1)) && (p.x == mySelf.x); };
+    var onBottom = (p, distance = 1) => { return (p.y == (mySelf.y + 1)) && (p.x == mySelf.x); };
 
     var isInfrontOfMe = (ps) => {
         var result = ps.filter( (p) => {
@@ -59,14 +59,26 @@ app.post('/', function (req, res) {
             res.send('F');
         }
     } else if (closestOne != null) {
-        if (closestOne.x == mySelf.x) {
+        if (onLeft(closestOne, 2)) {
+            if (mySelf.direction != 'W') {
+                res.send('L');
+            } else {
+                res.send('T');
+            }
+        } else if (onRight(closestOne, 2)) {
+            if (mySelf.direction != 'E') {
+                res.send('L');
+            } else {
+                res.send('T');
+            }
+        } else if (onTop(closestOne, 2)) {
             if (mySelf.direction != 'N') {
                 res.send('L');
             } else {
                 res.send('T');
             }
-        } else if (closestOne.y == mySelf.y) {
-            if (mySelf.direction != 'W') {
+        } else if (onBottom(closestOne, 2)) {
+            if (mySelf.direction != 'S') {
                 res.send('L');
             } else {
                 res.send('T');
@@ -74,6 +86,7 @@ app.post('/', function (req, res) {
         } else {
             res.send('F');
         }
+
     } else {
        let moves = ['L','R','F'];
        res.send(moves[Math.floor(Math.random() * moves.length)]);
