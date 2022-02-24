@@ -64,21 +64,9 @@ app.post('/', function (req, res) {
         } else {
             res.send('T');
         }
-    } else if (mySelf.x != (dims[0] - 1)) {
-        if (mySelf.direction != 'E') {
-            res.send('L');
-        } else {
-            
-            res.send('F');
-        }
-    } else if (mySelf.y != (dims[1] - 1)) {
-        if (mySelf.direction != 'S') {
-            res.send('L');
-        } else {
-            res.send('F');
-        }
     } else {
-        res.send('T');
+       let moves = ['L','R','F'];
+       res.send(moves[Math.floor(Math.random() * moves.length)]);
     }
 });
 
