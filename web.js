@@ -28,18 +28,10 @@ app.post('/', function (req, res) {
 
     var findClosest = (players, myState) => {
         var closePlayers = players.filter((p1) => {
-            return ((myState.y - p1.y) <= 2) && ((myState.x - p1.x) <= 2) 
+            return (Math.abs(myState.y - p1.y) <= 2) && (Math.abs(myState.x - p1.x) <= 2) 
         });
         
         if (closePlayers.length != 0) {
-            closePlayers.sort((p1, p2)=> {
-                if (p1.y == p2.y) {
-                    return p1.x >= p2.x;
-                } else {
-                    return p1.y >= p2.y;
-                }
-            })
-
             return closePlayers[0];
         } else {
             return null;
