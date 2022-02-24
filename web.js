@@ -63,13 +63,13 @@ app.post('/', function (req, res) {
     } else {
         if (closestOne != null) {
             if (closestOne.x == mySelf.x) {
-                if (mySelf.direction != 'W') {
+                if (mySelf.direction != 'N') {
                     res.send('L');
                 } else {
                     res.send('T');
                 }
             } else if (closestOne.y == mySelf.y) {
-                if (mySelf.direction != 'N') {
+                if (mySelf.direction != 'W') {
                     res.send('L');
                 } else {
                     res.send('T');
