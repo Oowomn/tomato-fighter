@@ -48,10 +48,27 @@ app.post('/', function (req, res) {
 
     var closestOne = findClosest(state, mySelf);
 
-    if (mySelf.x != (dims[0] - 1)) {
+    if (closestOne != null) {
+        if (closestOne.x == mySelf.x) {
+            if (mySelf.direction != 'N') {
+                res.send('L');
+            } else {
+                res.send('T');
+            }
+        } else if (closestOne.y == mySelf.y) {
+            if (mySelf.direction != 'W') {
+                res.send('L');
+            } else {
+                res.send('T');
+            }
+        } else {
+            res.send('T');
+        }
+    } else if (mySelf.x != (dims[0] - 1)) {
         if (mySelf.direction != 'E') {
             res.send('L');
         } else {
+            
             res.send('F');
         }
     } else if (mySelf.y != (dims[1] - 1)) {
@@ -61,25 +78,7 @@ app.post('/', function (req, res) {
             res.send('F');
         }
     } else {
-        if (closestOne != null) {
-            if (closestOne.x == mySelf.x) {
-                if (mySelf.direction != 'N') {
-                    res.send('L');
-                } else {
-                    res.send('T');
-                }
-            } else if (closestOne.y == mySelf.y) {
-                if (mySelf.direction != 'W') {
-                    res.send('L');
-                } else {
-                    res.send('T');
-                }
-            } else {
-                res.send('T');
-            }
-        } else {
-            res.send('T');
-        }
+        res.send('T');
     }
 });
 
