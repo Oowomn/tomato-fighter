@@ -15,12 +15,23 @@ app.post('/', function (req, res) {
         return state[pURL];
     };
 
-    var mySelf = findPeople(state, "https://nodejs-bot-aikn37gbia-de.a.run.app");
+    var mySelf = findPeople(state, "https://tomato-fighter-aikn37gbia-uc.a.run.app");
 
-    
-
-  const moves = ['F', 'T', 'L', 'R'];
-  res.send(moves[Math.floor(Math.random() * moves.length)]);
+    if (mySelf.x != dims[0]) {
+        if (mySelf.direction != 'S') {
+            res.send('L');
+        } else {
+            res.send('F');
+        }
+    } else if (mySelf.y != dims[1]) {
+        if (mySelf.direction != 'E') {
+            res.send('L');
+        } else {
+            res.send('F');
+        }
+    } else {
+        res.send('T');
+    }
 });
 
 app.listen(process.env.PORT || 8080);
