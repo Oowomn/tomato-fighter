@@ -62,7 +62,7 @@ app.post('/', function (req, res) {
                 res.send('T');
             }
         } else {
-            res.send('T');
+            res.send('F');
         }
     } else {
        let moves = ['L','R','F'];
